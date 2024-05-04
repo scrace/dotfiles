@@ -1,0 +1,2 @@
+SOURCE_FILE=$DOTFILES/bash/.bash.rc
+LINK_TARGET=.bash.rc
