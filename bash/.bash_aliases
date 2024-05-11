@@ -10,10 +10,8 @@ alias d='cd /mnt/d/'
 alias dl='cd ~/Downloads'
 alias p='cd ~/projects'
 
-#
 alias source='source ~/.bashrc'
 
 alias ll='ls -la'
 
-# programs
-alias st='/mnt/c/Program\ Files/Sublime\ Text/sublime_text.exe'
+alias sl='/mnt/c/Program\ Files/Sublime\ Text/sublime_text.exe $1'
