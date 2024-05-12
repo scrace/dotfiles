@@ -1,2 +1,1 @@
-SOURCE_FILE=$DOTFILES/wezterm/.wezterm.lua
-LINK_TARGET=<HOME_DIR>/.wezterm.lua
+$DOTFILES/wezterm/=<HOME_DIR>/wezterm

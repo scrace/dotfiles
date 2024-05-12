@@ -2,9 +2,13 @@ local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
 keymap.noremap({ "n", "v", "o", "x" }, "<C-c>", "<Esc>")
-keymap.noremap({ "n", "v", "o", "x" }, "<F24>", "<Esc>")
+keymap.noremap({ "n", "v", "o", "x" }, "<F13>", "<Esc>")
 
 keymap.set("n", "x", '"_x')
+
+-- Illegal stuff
+keymap.noremap("n", "a", "h")
+keymap.noremap("n", "s", "j")
 
 -- Increment/decrement
 keymap.set("n", "+", "<C-a>")
@@ -32,20 +36,20 @@ keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
 keymap.set("n", "tw", ":tabclose<Return>", opts)
 
 -- Split window
-keymap.set("n", "ss", ":split<Return>", opts)
+keymap.set("n", "sh", ":split<Return>", opts)
 keymap.set("n", "sv", ":vsplit<Return>", opts)
 
 -- Move window
-keymap.set("n", "sh", "<C-w>h")
-keymap.set("n", "sk", "<C-w>k")
-keymap.set("n", "sj", "<C-w>j")
-keymap.set("n", "sl", "<C-w>l")
+keymap.set("n", "sa", "<C-w>h")
+keymap.set("n", "sl", "<C-w>k")
+keymap.set("n", "sk", "<C-w>j")
+keymap.set("n", "ss", "<C-w>l")
 
 -- Resize window
-keymap.set("n", "<C-S-h>", "<C-w><")
+keymap.set("n", "<C-S-a>", "<C-w><")
 keymap.set("n", "<C-S-l>", "<C-w>>")
 keymap.set("n", "<C-S-k>", "<C-w>+")
-keymap.set("n", "<C-S-j>", "<C-w>-")
+keymap.set("n", "<C-S-s>", "<C-w>-")
 
 -- Diagnostic keymaps
 keymap.set("n", "[d", vim.diagnostic.goto_prev)

@@ -1,4 +1,4 @@
-#!/usr/bin/env/ bash
+#!/usr/bin/env bash
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # check if running within WSL
@@ -20,13 +20,6 @@ else
   echo "Unsupported OS"
   exit 1
 fi
-
-linkPath=$(find -H "$DOTFILES" -maxdepth 2 -name 'links.prop' -not -path '*.git*')
-
-# Replace placeholders in link.props files with actual home directory
-echo "$linkPath" | while IFS= read -r linkfile; do
-    sed -i "s|<HOME_DIR>|$HOME_DIR|g" "$linkfile"
-done
 
 cd "$(dirname "$0")/.."
 DOTFILES=$(pwd -P)
@@ -67,8 +60,6 @@ link_file () {
     if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
     then
 
-      # ignoring exit 1 from readlink in case where file already exists
-      # shellcheck disable=SC2155
       local currentSrc="$(readlink $dst)"
 
       if [ "$currentSrc" == "$src" ]
@@ -80,7 +71,7 @@ link_file () {
 
         user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
         [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action  < /dev/tty
+        read -n 1 action
 
         case "$action" in
           o )
@@ -132,25 +123,20 @@ link_file () {
   fi
 }
 
-prop () {
-   PROP_KEY=$1
-   PROP_FILE=$2
-   PROP_VALUE=$(eval echo "$(cat $PROP_FILE | grep "$PROP_KEY" | cut -d'=' -f2)")
-   echo $PROP_VALUE
-}
-
 install_dotfiles () {
   info 'installing dotfiles'
 
   local overwrite_all=false backup_all=false skip_all=false
 
-  echo "$linkPath" | while IFS= read -r linkfile
+  find -H "$DOTFILES" -maxdepth 2 -name 'links.prop' -not -path '*.git*' | while read linkfile
   do
     cat "$linkfile" | while read line
     do
         local src dst dir
         src=$(eval echo "$line" | cut -d '=' -f 1)
         dst=$(eval echo "$line" | cut -d '=' -f 2)
+        # Replace placeholder in link.props files with the desired home directory 
+        dst=$(sed -i "s|<HOME_DIR>|$HOME_DIR|g" <<< "$dst")
         dir=$(dirname $dst)
 
         mkdir -p "$dir"
@@ -171,6 +157,5 @@ create_env_file () {
 install_dotfiles
 create_env_file
 
-echo ''
 echo ''
 success 'All installed!'

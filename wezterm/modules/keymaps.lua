@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 return {
-	leader = { key = "Space", mods = "SHIFT", timeout_milliseconds = 1000 },
+	leader = { key = "Space", mods = "SHIFT", timeout_milliseconds = 2000 },
 
 	keys = {
 		{
@@ -17,31 +17,33 @@ return {
 		},
 		{
 			key = "w",
-			mods = "CMD",
+			mods = "LEADER",
 			action = act.CloseCurrentPane({ confirm = true }),
 		},
-		-- focus panes
+
+		-- Focus panes
 		{
-			key = "k",
+			key = "a",
 			mods = "LEADER",
 			action = act.ActivatePaneDirection("Left"),
 		},
 		{
-			key = "i",
+			key = "l",
 			mods = "LEADER",
 			action = act.ActivatePaneDirection("Right"),
 		},
 		{
-			key = "e",
+			key = "k",
 			mods = "LEADER",
 			action = act.ActivatePaneDirection("Up"),
 		},
 		{
-			key = "n",
+			key = "s",
 			mods = "LEADER",
 			action = act.ActivatePaneDirection("Down"),
 		},
-		-- add new panes
+
+		-- Add new panes
 		{
 			key = "v",
 			mods = "LEADER",
@@ -52,23 +54,28 @@ return {
 			mods = "LEADER",
 			action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 		},
+
+		-- Activate resize mode
+		{
+			key = "r",
+			mods = "LEADER",
+			action = act.ActivateKeyTable({
+				name = "resize_pane",
+				one_shot = false,
+			}),
+		},
 	},
 
 	key_tables = {
 		resize_pane = {
-			{ key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 5 }) },
-			{ key = "k", action = act.AdjustPaneSize({ "Left", 5 }) },
-
-			{ key = "RightArrow", action = act.AdjustPaneSize({ "Right", 5 }) },
-			{ key = "i", action = act.AdjustPaneSize({ "Right", 5 }) },
-
-			{ key = "UpArrow", action = act.AdjustPaneSize({ "Up", 2 }) },
-			{ key = "e", action = act.AdjustPaneSize({ "Up", 2 }) },
-
-			{ key = "DownArrow", action = act.AdjustPaneSize({ "Down", 2 }) },
-			{ key = "n", action = act.AdjustPaneSize({ "Down", 2 }) },
+			{ key = "a", action = act.AdjustPaneSize({ "Left", 5 }) },
+			{ key = "l", action = act.AdjustPaneSize({ "Right", 5 }) },
+			{ key = "k", action = act.AdjustPaneSize({ "Up", 2 }) },
+			{ key = "s", action = act.AdjustPaneSize({ "Down", 2 }) },
 
 			{ key = "Escape", action = "PopKeyTable" },
+			{ key = "F13", action = "PopKeyTable" },
+			{ key = "F14", action = "PopKeyTable" },
 		},
 	},
 }
