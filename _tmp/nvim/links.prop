@@ -1,0 +1,2 @@
+SOURCE_FILE=$DOTFILES/nvim/
+LINK_TARGET=$HOME/.config/nvim
