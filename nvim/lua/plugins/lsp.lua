@@ -13,12 +13,13 @@ return {
 			})
 		end,
 	},
-
 	-- lsp servers
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
 			inlay_hints = { enabled = true },
+			-- Poimandres font bugs if this is enabled
+			document_highlight = { enabled = false },
 			---@type lspconfig.options
 			servers = {
 				cssls = {},
@@ -59,7 +60,6 @@ return {
 				},
 				html = {},
 				lua_ls = {
-					-- enabled = false,
 					single_file_support = true,
 					settings = {
 						Lua = {

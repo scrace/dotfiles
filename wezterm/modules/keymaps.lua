@@ -74,8 +74,7 @@ return {
 			{ key = "s", action = act.AdjustPaneSize({ "Down", 2 }) },
 
 			{ key = "Escape", action = "PopKeyTable" },
-			{ key = "F13", action = "PopKeyTable" },
-			{ key = "F14", action = "PopKeyTable" },
+			{ key = "F12", action = "PopKeyTable" },
 		},
 	},
 }

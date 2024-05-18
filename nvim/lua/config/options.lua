@@ -37,6 +37,9 @@ opt.backspace = { "start", "eol", "indent" }
 
 opt.undofile = true
 opt.backup = false
+opt.autoread = true
+opt.autowrite = true
+opt.autowriteall = true
 
 opt.mouse = ""
 opt.inccommand = "split"
@@ -46,4 +49,3 @@ opt.formatoptions:append({ "r" }) -- Add asterisks in block comments
 
 opt.updatetime = 100
 opt.timeoutlen = 300
-

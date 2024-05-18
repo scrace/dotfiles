@@ -1,6 +1,8 @@
 local wezterm = require("wezterm")
 local keymaps = require("modules.keymaps")
+local typography = require("modules.typography")
 
+-- Show which key table is active in the status area
 wezterm.on("update-right-status", function(window, pane)
 	local name = window:active_key_table()
 	if name then
@@ -10,29 +12,36 @@ wezterm.on("update-right-status", function(window, pane)
 end)
 
 return {
-	-- load terminal in wsl
-	default_domain = "WSL:Ubuntu",
+  -- Miscellaneous
+	default_domain = "WSL:Ubuntu", -- load terminal in wsl
 	default_cursor_style = "BlinkingBlock",
-	--color_scheme = "Andromeda"
+
+  -- Color
 	color_scheme = "Poimandres",
 	colors = {
 		cursor_bg = "#A6ACCD",
 		cursor_border = "#A6ACCD",
 		cursor_fg = "#1B1E28",
 	},
-	font = wezterm.font("Sk-Modernist-Regular", { weight = "Medium" }),
-	font_size = 14,
-	line_height = 1.6,
+
+  -- Font
+  font_size = typography.font_size,
+  cell_width = typography.cell_width,
+  line_height = typography.line_height,
+  warn_about_missing_glyphs = typography.warn_about_missing_glyphs,
+  font = typography.font,
+  --font_rules = typography.font_rules,
+
+  -- Window  
 	window_background_opacity = 0.98,
 	use_fancy_tab_bar = false,
 	tab_bar_at_bottom = true,
-	hide_tab_bar_if_only_one_tab = true,
-	tab_max_width = 999999,
+	--hide_tab_bar_if_only_one_tab = true,
 	window_padding = {
 		left = 30,
 		right = 30,
-		top = 30,
-		bottom = 30,
+		top = 20,
+		bottom = 20,
 	},
 	window_decorations = "RESIZE",
 	inactive_pane_hsb = {
@@ -40,7 +49,8 @@ return {
 	},
 	send_composed_key_when_left_alt_is_pressed = false,
 	send_composed_key_when_right_alt_is_pressed = true,
-	-- key bindings
+
+	-- Keymaps
 	leader = keymaps.leader,
 	keys = keymaps.keys,
 	key_tables = keymaps.key_tables,

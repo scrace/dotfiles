@@ -36,3 +36,12 @@ autocmd("SetTabOptions", {
 		set_tab_options()
 	end,
 })
+
+autocmd("RemoveCarriageReturn", {
+	group = autogroup("remove-carriage-return", { clear = true }),
+	events = { "BufWritePre" },
+	pattern = "*",
+	callback = function()
+		vim.cmd("%s/\r//")
+	end,
+})

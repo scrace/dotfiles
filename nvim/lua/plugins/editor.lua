@@ -1,9 +1,13 @@
 return {
-	-- Hihglight colors
+	-- Highlight colors
 	{
 		"echasnovski/mini.hipatterns",
 		event = "BufReadPre",
 		opts = {},
+	},
+	{
+		"folke/flash.nvim",
+		enabled = false
 	},
 	{
 		"telescope.nvim",
@@ -60,7 +64,7 @@ return {
 				desc = "Lists Diagnostics for all open buffers or a specific buffer",
 			},
 			{
-				";s",
+				";v",
 				function()
 					local builtin = require("telescope.builtin")
 					builtin.treesitter()
@@ -68,7 +72,7 @@ return {
 				desc = "Lists Function names, variables, from Treesitter",
 			},
 			{
-				"sf",
+				";t",
 				function()
 					local telescope = require("telescope")
 
@@ -102,7 +106,9 @@ return {
 				sorting_strategy = "ascending",
 				winblend = 0,
 				mappings = {
-					n = {},
+					n = {
+						["s"] = actions.move_selection_next
+					},
 				},
 			})
 			opts.pickers = {
@@ -120,9 +126,7 @@ return {
 					-- disables netrw and use telescope-file-browser in its place
 					hijack_netrw = true,
 					mappings = {
-						-- your custom insert mode mappings
 						["n"] = {
-							-- your custom normal mode mappings
 							["N"] = fb_actions.create,
 							["h"] = fb_actions.goto_parent_dir,
 							["<C-u>"] = function(prompt_bufnr)
