@@ -6,11 +6,17 @@ local function map(mode, l, r, opts)
 	keymap.set(mode, l, r, opts)
 end
 
-map("n", "x", '"_x')
-
 -- Illegal stuff
 map("n", "a", "h", opts)
 map("n", "s", "j", opts)
+
+map("i", "<C-k>", "<Up>", opts)
+map("i", "<C-s>", "<Down>", opts)
+map("i", "<C-a>", "<Left>", opts)
+map("i", "<C-l>", "<Right>", opts)
+
+map("n", "q", "b", opts)
+map("n", "Q", "B", opts)
 
 map({ "i", "v", "o", "x" }, "<F12>", "<Esc>", opts)
 map({ "i", "v", "o", "x" }, "<C-c>", "<Esc>", opts)

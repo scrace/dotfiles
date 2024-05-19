@@ -7,7 +7,7 @@ return {
 	},
 	{
 		"folke/flash.nvim",
-		enabled = false
+		enabled = false,
 	},
 	{
 		"telescope.nvim",
@@ -27,6 +27,14 @@ return {
 					builtin.find_files({
 						no_ignore = false,
 						hidden = true,
+						file_ignore_patterns = {
+							"%.lock",
+							"%lock.yaml",
+							"node_modules/",
+							"%.git/",
+							"%.next",
+							"next.config.mjs",
+						},
 					})
 				end,
 				desc = "Lists files in your current working directory, respects .gitignore",
@@ -38,6 +46,32 @@ return {
 					builtin.live_grep()
 				end,
 				desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore",
+			},
+			{
+				";g",
+				function()
+					local builtin = require("telescope.builtin")
+					builtin.live_grep({
+						file_ignore_patterns = {
+							"%.lock",
+							"%lock.yaml",
+							"node_modules/",
+							"%.git/",
+							"%.next",
+							"next.config.mjs",
+							"%.svg",
+						},
+					})
+				end,
+				desc = "Grep",
+			},
+			{
+				";w",
+				function()
+					local builtin = require("telescope.builtin")
+					builtin.grep_string()
+				end,
+				desc = "Searches for the string under your cursor or selection in your current working directory",
 			},
 			{
 				"\\\\",
@@ -107,7 +141,7 @@ return {
 				winblend = 0,
 				mappings = {
 					n = {
-						["s"] = actions.move_selection_next
+						["s"] = actions.move_selection_next,
 					},
 				},
 			})

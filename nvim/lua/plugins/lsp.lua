@@ -16,9 +16,13 @@ return {
 	-- lsp servers
 	{
 		"neovim/nvim-lspconfig",
+		init = function()
+			local keys = require("lazyvim.plugins.lsp.keymaps").get()
+			keys[#keys + 1] = { "<c-k>", false }
+		end,
 		opts = {
 			inlay_hints = { enabled = true },
-			-- Poimandres font bugs if this is enabled
+			-- Poimandres font currently bugs, if this is enabled
 			document_highlight = { enabled = false },
 			---@type lspconfig.options
 			servers = {

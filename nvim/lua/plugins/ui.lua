@@ -4,6 +4,10 @@ return {
 		enabled = false,
 	},
 	{
+		"akinsho/bufferline.nvim",
+		enabled = false,
+	},
+	{
 		"nvim-lualine/lualine.nvim",
 		config = function()
 			local function filepath()
@@ -246,7 +250,10 @@ return {
 					api.config.mappings.default_on_attach(bufnr)
 
 					-- custom mappings
+					vim.keymap.del("n", "s", { buffer = bufnr })
+					vim.keymap.del("n", "a", { buffer = bufnr })
 					vim.keymap.set("n", "t", api.node.open.tab, opts("Tab"))
+					vim.keymap.set("n", "n", api.fs.create, opts("Create File or Directory"))
 				end,
 				actions = {
 					open_file = {
@@ -264,7 +271,7 @@ return {
 					group_empty = true,
 				},
 				filters = {
-					dotfiles = true,
+					dotfiles = false,
 					custom = {
 						"node_modules/.*",
 					},
