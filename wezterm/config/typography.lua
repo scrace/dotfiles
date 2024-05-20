@@ -18,6 +18,7 @@ return {
     }
   },
 
+  --[[
   font_rules = {
     { -- Italic
       intensity = "Normal",
@@ -48,4 +49,5 @@ return {
       )
     },
   },
+  ]]--
 }
