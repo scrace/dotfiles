@@ -1,5 +1,6 @@
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
+local util = require("lazyvim.util")
 
 local function map(mode, l, r, opts)
 	opts = opts or {}
@@ -63,6 +64,12 @@ map("n", "<C-s>", ":up<CR>", opts)
 map("n", "<Leader>w", ":update<Return>", opts)
 map("n", "<Leader>q", ":quit<Return>", opts)
 map("n", "<Leader>Q", ":qa<Return>", opts)
+
+map("n", ";t", function()
+	util.terminal()
+end, { desc = "Terminal (cwd)" })
+map("t", "<F12>", "<cmd>close<cr>", { desc = "Close Terminal" })
+map("t", "<C-c>", "<cmd>close<cr>", { desc = "Close Terminal" })
 
 -- File explorer with NvimTree
 map("n", "<Leader>f", ":NvimTreeFindFile<Return>", opts)

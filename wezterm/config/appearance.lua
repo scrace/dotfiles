@@ -28,6 +28,8 @@ return {
 		top = 20,
 		bottom = 20,
 	},
+	initial_cols = 240,
+	initial_rows = 40,
 	window_close_confirmation = "NeverPrompt",
 	window_decorations = "RESIZE",
 	window_background_opacity = 0.98,

@@ -10,6 +10,7 @@ return {
 				"tailwindcss-language-server",
 				"typescript-language-server",
 				"css-lsp",
+				"emmet-ls",
 			})
 		end,
 	},
@@ -19,6 +20,15 @@ return {
 		init = function()
 			local keys = require("lazyvim.plugins.lsp.keymaps").get()
 			keys[#keys + 1] = { "<c-k>", false }
+			table.insert(keys, {
+				"<leader>cM",
+				function()
+					vim.lsp.buf.code_action({
+						only = { "source.addMissingImports.ts" },
+					})
+				end,
+				desc = "Add missing imports",
+			})
 		end,
 		opts = {
 			inlay_hints = { enabled = true },
@@ -125,6 +135,12 @@ return {
 								},
 							},
 						},
+					},
+				},
+				emmet_ls = {
+					capabilities = vim.lsp.protocol.make_client_capabilities(),
+					flags = {
+						debounce_text_changes = 150,
 					},
 				},
 			},

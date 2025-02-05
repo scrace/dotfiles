@@ -34,6 +34,11 @@ require("lazy").setup({
 		{ import = "lazyvim.plugins.extras.coding.mini-surround" },
 		-- { import = "lazyvim.plugins.extras.coding.copilot" },
 		{ import = "plugins" },
+		{
+			"mrcjkb/rustaceanvim",
+			version = "^5",
+			lazy = false,
+		},
 	},
 	defaults = {
 		lazy = false,

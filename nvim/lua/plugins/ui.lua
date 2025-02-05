@@ -8,6 +8,10 @@ return {
 		enabled = false,
 	},
 	{
+		"nvim-neo-tree/neo-tree.nvim",
+		enabled = false,
+	},
+	{
 		"nvim-lualine/lualine.nvim",
 		config = function()
 			local function filepath()
@@ -96,97 +100,97 @@ return {
 	{
 		"rcarriga/nvim-notify",
 		opts = {
-			timeout = 10000,
+			timeout = 8000,
 			background_colour = "#000000",
 			render = "wrapped-compact",
 		},
 	},
 	-- filename
-	{
-		"b0o/incline.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			local devicons = require("nvim-web-devicons")
-			require("incline").setup({
-				window = {
-					padding = 0,
-					margin = {
-						horizontal = 0,
-						vertical = 0,
-					},
-					placement = {
-						horizontal = "center",
-						vertical = "top",
-					},
-				},
-				render = function(props)
-					local lazy_icons = require("lazyvim.config").icons
-
-					local function get_file_name()
-						local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-						if filename == "" then
-							filename = "[No Name]"
-						end
-						local ft_icon, ft_color = devicons.get_icon_color(filename)
-						local modified = vim.bo[props.buf].modified
-						local label = {}
-
-						table.insert(label, { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" })
-						table.insert(label, { filename, gui = modified and "bold,italic" or "bold" })
-						if #label > 0 then
-							table.insert(label, { "" })
-						end
-						return label
-					end
-
-					local function get_diagnostics()
-						local icons = {
-							error = lazy_icons.diagnostics.Error,
-							warn = lazy_icons.diagnostics.Warn,
-							info = lazy_icons.diagnostics.Info,
-							hint = lazy_icons.diagnostics.Hint,
-						}
-						local labels = {}
-
-						for severity, icon in pairs(icons) do
-							local n = #vim.diagnostic.get(
-								props.buf,
-								{ severity = vim.diagnostic.severity[string.upper(severity)] }
-							)
-							if n > 0 then
-								table.insert(labels, { " " .. icon .. n, group = "DiagnosticSign" .. severity })
-							end
-						end
-						if #labels > 0 then
-							table.insert(labels, { " " })
-						end
-						return labels
-					end
-
-					local function get_git_diff()
-						local icons = { removed = " ", changed = " ", added = " " }
-						local signs = vim.b[props.buf].gitsigns_status_dict
-						local labels = {}
-						if signs == nil then
-							return labels
-						end
-						for name, icon in pairs(icons) do
-							if tonumber(signs[name]) and signs[name] > 0 then
-								table.insert(labels, { icon .. signs[name] .. " ", group = "Diff" .. name })
-							end
-						end
-						return labels
-					end
-
-					return {
-						{ get_file_name() },
-						{ get_diagnostics() },
-						--{ get_git_diff() },
-					}
-				end,
-			})
-		end,
-	},
+	-- {
+	-- 	"b0o/incline.nvim",
+	-- 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	-- 	config = function()
+	-- 		local devicons = require("nvim-web-devicons")
+	-- 		require("incline").setup({
+	-- 			window = {
+	-- 				padding = 0,
+	-- 				margin = {
+	-- 					horizontal = 0,
+	-- 					vertical = 0,
+	-- 				},
+	-- 				placement = {
+	-- 					horizontal = "center",
+	-- 					vertical = "top",
+	-- 				},
+	-- 			},
+	-- 			render = function(props)
+	-- 				local lazy_icons = require("lazyvim.config").icons
+	--
+	-- 				local function get_file_name()
+	-- 					local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+	-- 					if filename == "" then
+	-- 						filename = "[No Name]"
+	-- 					end
+	-- 					local ft_icon, ft_color = devicons.get_icon_color(filename)
+	-- 					local modified = vim.bo[props.buf].modified
+	-- 					local label = {}
+	--
+	-- 					table.insert(label, { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" })
+	-- 					table.insert(label, { filename, gui = modified and "bold,italic" or "bold" })
+	-- 					if #label > 0 then
+	-- 						table.insert(label, { "" })
+	-- 					end
+	-- 					return label
+	-- 				end
+	--
+	-- 				local function get_diagnostics()
+	-- 					local icons = {
+	-- 						error = lazy_icons.diagnostics.Error,
+	-- 						warn = lazy_icons.diagnostics.Warn,
+	-- 						info = lazy_icons.diagnostics.Info,
+	-- 						hint = lazy_icons.diagnostics.Hint,
+	-- 					}
+	-- 					local labels = {}
+	--
+	-- 					for severity, icon in pairs(icons) do
+	-- 						local n = #vim.diagnostic.get(
+	-- 							props.buf,
+	-- 							{ severity = vim.diagnostic.severity[string.upper(severity)] }
+	-- 						)
+	-- 						if n > 0 then
+	-- 							table.insert(labels, { " " .. icon .. n, group = "DiagnosticSign" .. severity })
+	-- 						end
+	-- 					end
+	-- 					if #labels > 0 then
+	-- 						table.insert(labels, { " " })
+	-- 					end
+	-- 					return labels
+	-- 				end
+	--
+	-- 				local function get_git_diff()
+	-- 					local icons = { removed = " ", changed = " ", added = " " }
+	-- 					local signs = vim.b[props.buf].gitsigns_status_dict
+	-- 					local labels = {}
+	-- 					if signs == nil then
+	-- 						return labels
+	-- 					end
+	-- 					for name, icon in pairs(icons) do
+	-- 						if tonumber(signs[name]) and signs[name] > 0 then
+	-- 							table.insert(labels, { icon .. signs[name] .. " ", group = "Diff" .. name })
+	-- 						end
+	-- 					end
+	-- 					return labels
+	-- 				end
+	--
+	-- 				return {
+	-- 					{ get_file_name() },
+	-- 					{ get_diagnostics() },
+	-- 					--{ get_git_diff() },
+	-- 				}
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- },
 	-- LazyGit integration with Telescope
 	{
 		"kdheepak/lazygit.nvim",

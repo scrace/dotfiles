@@ -3,6 +3,10 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		tag = "v0.9.1",
 		opts = {
+			ignore_install = {
+				"printf",
+				"xml",
+			},
 			ensure_installed = {
 				"javascript",
 				"typescript",
@@ -15,7 +19,9 @@ return {
 				"sql",
 				"vim",
 				"lua",
+				"rust",
 			},
+			auto_install = true,
 			query_linter = {
 				enable = true,
 				use_virtual_text = true,
