@@ -3,8 +3,8 @@ local colors = require("colors.custom")
 
 return {
 	-- Misc
-	animation_fps = 144,
-	max_fps = 144,
+	animation_fps = 165,
+	max_fps = 165,
 	front_end = "WebGpu",
 	webgpu_power_preference = "HighPerformance",
 	webgpu_preferred_adapter = gpu_adapters:pick_best(),
@@ -12,6 +12,7 @@ return {
 	-- Colorscheme
 	colors = colors,
 	color_scheme = "Poimandres",
+	force_reverse_video_cursor = true,
 
 	-- Tab bar
 	enable_tab_bar = true,

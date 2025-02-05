@@ -32,8 +32,6 @@ return {
 		end,
 		opts = {
 			inlay_hints = { enabled = true },
-			-- Poimandres font currently bugs, if this is enabled
-			document_highlight = { enabled = false },
 			---@type lspconfig.options
 			servers = {
 				cssls = {},

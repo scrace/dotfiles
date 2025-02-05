@@ -1,7 +1,7 @@
 local colorscheme = {
 	cursor_bg = "#A6ACCD",
-	cursor_border = "#A6ACCD",
 	cursor_fg = "#1B1E28",
+	cursor_border = "#A6ACCD",
 
 	tab_bar = {
 		background = "rgba(0, 0, 0, 0.4)",
