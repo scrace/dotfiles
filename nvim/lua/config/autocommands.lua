@@ -37,7 +37,7 @@ autocmd("SetTabOptions", {
 	end,
 })
 
-autocmd("RemoveCarriageReturn", {
+autocmd("RemoveCarriageCR", {
 	group = autogroup("remove-carriage-return", { clear = true }),
 	events = { "BufWritePre" },
 	pattern = "*",

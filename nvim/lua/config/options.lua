@@ -41,7 +41,7 @@ opt.autoread = true
 opt.autowrite = true
 opt.autowriteall = true
 
-opt.mouse = ""
+--opt.mouse = ""
 opt.inccommand = "split"
 opt.path:append({ "**" })
 opt.wildignore:append({ "*/node_modules/*" })

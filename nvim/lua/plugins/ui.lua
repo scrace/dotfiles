@@ -197,7 +197,7 @@ return {
 		keys = {
 			{
 				";c",
-				":LazyGit<Return>",
+				":LazyGit<CR>",
 				silent = true,
 				noremap = true,
 			},

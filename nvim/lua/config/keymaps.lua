@@ -7,7 +7,10 @@ local function map(mode, l, r, opts)
 	keymap.set(mode, l, r, opts)
 end
 
--- Illegal stuff
+local handle_punctuation
+
+-- Illegal stuff --
+-- Move
 map("n", "a", "h", opts)
 map("n", "s", "j", opts)
 
@@ -16,14 +19,46 @@ map("i", "<C-s>", "<Down>", opts)
 map("i", "<C-a>", "<Left>", opts)
 map("i", "<C-l>", "<Right>", opts)
 
+map("i", "<M-k>", "<Up>", opts)
+map("i", "<M-s>", "<Down>", opts)
+map("i", "<M-a>", "<Left>", opts)
+map("i", "<M-l>", "<Right>", opts)
+
 map("n", "q", "b", opts)
 map("n", "Q", "B", opts)
+
+-- Scroll Up/Down
+map("n", "<M-S-k>", "<C-u>", opts)
+map("n", "<M-S-s>", "<C-d>", opts)
+
+map("n", "G", "gg", opts)
+map("n", "gg", "G", opts)
 
 map({ "i", "v", "o", "x" }, "<F12>", "<Esc>", opts)
 map({ "i", "v", "o", "x" }, "<C-c>", "<Esc>", opts)
 
-map("n", "G", "gg", opts)
-map("n", "gg", "G", opts)
+map("n", "<Enter>", "o", opts)
+map("n", "<S-Enter>", "O", opts)
+-- map("i", "<M-Enter>", "M-o", opts)
+-- map("i", "<M-S-Enter>", "M-O", opts)
+
+-- Insert Semicolon EOL
+map("n", "<M-;>", function()
+	return handle_punctuation(";", ",", false)()
+end, opts)
+
+map("i", "<M-;>", function()
+	return handle_punctuation(";", ",", true)()
+end, opts)
+
+-- Insert Comma EOL
+map("n", "<M-,>", function()
+	return handle_punctuation(",", ";", false)()
+end, opts)
+
+map("i", "<M-,>", function()
+	return handle_punctuation(",", ";", true)()
+end, opts)
 
 -- Go to previous file
 map("n", "gp", ":e#<CR>", opts)
@@ -61,9 +96,9 @@ map("n", "<Esc>", "<cmd>nohlsearch<CR>")
 map("n", "<C-s>", ":up<CR>", opts)
 
 -- Save file and quit
-map("n", "<Leader>w", ":update<Return>", opts)
-map("n", "<Leader>q", ":quit<Return>", opts)
-map("n", "<Leader>Q", ":qa<Return>", opts)
+map("n", "<Leader>w", ":update<CR>", opts)
+map("n", "<Leader>q", ":quit<CR>", opts)
+map("n", "<Leader>Q", ":qa<CR>", opts)
 
 map("n", ";t", function()
 	util.terminal()
@@ -72,18 +107,23 @@ map("t", "<F12>", "<cmd>close<cr>", { desc = "Close Terminal" })
 map("t", "<C-c>", "<cmd>close<cr>", { desc = "Close Terminal" })
 
 -- File explorer with NvimTree
-map("n", "<Leader>f", ":NvimTreeFindFile<Return>", opts)
-map("n", "<Leader>t", ":NvimTreeToggle<Return>", opts)
+map("n", "<Leader>f", ":NvimTreeFindFile<CR>", opts)
+map("n", "<Leader>t", ":NvimTreeToggle<CR>", opts)
 
 -- Tabs
-map("n", "te", ":tabedit")
-map("n", "<tab>", ":tabnext<Return>", opts)
-map("n", "<s-tab>", ":tabprev<Return>", opts)
-map("n", "tw", ":tabclose<Return>", opts)
+-- map("n", "tn", ":tabnew<CR>")
+map("n", "tn", function()
+	vim.cmd("tabnew")
+	require("telescope.builtin").find_files()
+end, { desc = "New Tab with File Picker" })
+map("n", "te", ":tabedit<CR>")
+map("n", "<tab>", ":tabnext<CR>", opts)
+map("n", "<s-tab>", ":tabprev<CR>", opts)
+map("n", "tw", ":tabclose<CR>", opts)
 
 -- Split window
-map("n", "<Leader>h", ":split<Return>", opts)
-map("n", "<Leader>v", ":vsplit<Return>", opts)
+map("n", "<Leader>h", ":split<CR>", opts)
+map("n", "<Leader>v", ":vsplit<CR>", opts)
 
 -- Window navigation
 map("n", "<Leader>a", "<C-w>h", opts)
@@ -100,14 +140,10 @@ map("n", "<C-w>k", "<C-w>K", opts)
 map("n", "<C-w>s", "<C-w>J", opts)
 
 -- Resize window
-map("n", "<M-s>", ":resize -2<CR>", opts)
-map("n", "<M-k>", ":resize +2<CR>", opts)
-map("n", "<M-a>", ":vertical resize -2<CR>", opts)
-map("n", "<M-l>", ":vertical resize +2<CR>", opts)
-
--- Scroll Up/Down
-map("n", "K", "C-U", opts)
-map("n", "S", "C-D", opts)
+map("n", "<C-M-s>", ":resize -2<CR>", opts)
+map("n", "<C-M-k>", ":resize +2<CR>", opts)
+map("n", "<C-M-a>", ":vertical resize -2<CR>", opts)
+map("n", "<C-M-l>", ":vertical resize +2<CR>", opts)
 
 -- Diagnostic keymaps
 map("n", "[d", vim.diagnostic.goto_prev)
@@ -120,3 +156,40 @@ map("n", "<left>", "<Nop>")
 map("n", "<right>", "<Nop>")
 map("n", "<up>", "<Nop>")
 map("n", "<down>", "<Nop>")
+
+-- Windows/Wsl specific --
+-- Remove ^M all Characters which are inserted in wsl terminals
+map("n", ",m", function()
+	vim.cmd(":%s/\r//g")
+end)
+
+-- Helper --
+-- Helper function to handle punctuation at EOL
+handle_punctuation = function(char_to_add, blocking_char, in_insert_mode)
+	return function()
+		local line = vim.api.nvim_get_current_line()
+		local pos = vim.api.nvim_win_get_cursor(0)
+
+		if line:match(blocking_char .. "$") then
+			-- Do nothing if blocking character exists
+			if in_insert_mode then
+				vim.cmd("startinsert")
+			end
+			return
+		elseif line:match(char_to_add .. "$") then
+			-- Remove character if it exists
+			vim.cmd("normal! $x")
+			vim.api.nvim_win_set_cursor(0, pos)
+			if in_insert_mode then
+				vim.cmd("startinsert")
+			end
+		else
+			-- Add character if no punctuation exists
+			vim.cmd("normal! A" .. char_to_add)
+			vim.api.nvim_win_set_cursor(0, pos)
+			if in_insert_mode then
+				vim.cmd("startinsert")
+			end
+		end
+	end
+end
