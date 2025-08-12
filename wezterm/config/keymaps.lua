@@ -64,6 +64,13 @@ return {
 				one_shot = false,
 			}),
 		},
+
+		-- Disabled keys
+		{
+			key = "mapped:;",
+			mods = "CTRL",
+			action = act.DisableDefaultAssignment,
+		},
 	},
 
 	key_tables = {

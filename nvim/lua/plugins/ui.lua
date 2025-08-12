@@ -5,7 +5,27 @@ return {
 	},
 	{
 		"akinsho/bufferline.nvim",
-		enabled = false,
+        event = "VeryLazy",
+        opts = {
+            options = {
+                mode = "tabs",
+                always_show_bufferline = true,
+                show_buffer_close_icons = false,
+                show_close_icon = false,
+                color_icons = true,
+                separator_style = {"", ""},
+                indicator = {
+                    style = "none",
+                },
+                modified_icon = "●",
+                tab_size = 0,
+                max_name_length = 18,
+                max_prefix_length = 15,
+                truncate_names = true,
+                diagnostics = "nvim_lsp",
+            },
+        },
+    },
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
